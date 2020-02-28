@@ -12,6 +12,18 @@ app.get(`/notes`,(req,res)=>{
     res.end(output);
 });
 
+app.get('/api/notes',(req,res) => {
+    console.log('call for notes...');
+});
+
+app.post('/api/notes',(req,res)=>{
+    console.log(req.body);
+    let notes = JSON.parse(fs.readFileSync('./db/db.json'));
+    notes.push(req.body);
+    fs.writeFileSync('./db/db.json',JSON.stringify(notes));
+    res.end('note saved');
+})
+
 
 app.get('/',(req,res)=>{
     let output = fs.readFileSync('./public/index.html');
