@@ -19,15 +19,12 @@ app.get(`/notes`,(req,res)=>{
 });
 
 app.get('/api/notes',(req,res) => {
-    // console.log('call for notes... app.get pi/notes');
     let output = JSON.parse(fs.readFileSync('./db/db.json','utf-8'));
-    // console.log(output);
     res.json(output);
 });
 
 app.post('/api/notes',(req,res)=>{
-    console.log('call for post api/notes');
-    console.log(req.body);
+    
     let notes = JSON.parse(fs.readFileSync('./db/db.json'));
     req.body.id = notes.length + 1;
     notes.push(req.body);
@@ -42,14 +39,9 @@ app.get('/',(req,res)=>{
 });
 
 app.delete('/api/notes/:id',(req,res)=>{
-    console.log('delete request received id',req.params.id);
     let notes = JSON.parse(fs.readFileSync('./db/db.json'));
-    // console.log(notes);
-    
     notes.forEach((element,index) => {
-        // console.log(element.id);
         if (element.id === Number(req.params.id)){
-            console.log(`found note! at index ${index}`);
             notes.splice(index,1);
             fs.writeFileSync('./db/db.json',JSON.stringify(notes));
         }
@@ -61,8 +53,6 @@ app.delete('/api/notes/:id',(req,res)=>{
 app.get('*',function (req, res) {
     res.redirect('/');
 });
-
-
 
 app.listen(PORT,(req,res)=> {
     console.log(`server started on port ${PORT}`);
